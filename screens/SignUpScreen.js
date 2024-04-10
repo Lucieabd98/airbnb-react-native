@@ -14,7 +14,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { useState } from "react";
 import axios from "axios";
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation, setUserToken }) => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -23,24 +23,31 @@ const SignUpScreen = ({ navigation }) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  console.log(errorMessage);
-
   const handleSubmit = async () => {
+    setErrorMessage("");
     if (email && username && description && password && confirmPassword) {
-      try {
-        const response = await axios.post(
-          "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/sign_up",
-          {
-            email: email,
-            username: username,
-            description: description,
-            password: password,
-          }
-        );
-        console.log(response);
-        alert("Your account has been successfully created.");
-      } catch (error) {
-        console.log(error);
+      if (password === confirmPassword) {
+        try {
+          const response = await axios.post(
+            "https://lereacteur-bootcamp-api.herokuapp.com/api/airbnb/user/sign_up",
+            {
+              email: email,
+              username: username,
+              description: description,
+              password: password,
+            }
+          );
+          console.log(response.data);
+          const token = response.data.token;
+
+          setUserToken(token);
+          alert("Your account has been successfully created.");
+        } catch (error) {
+          console.log(error.response.data.error);
+          setErrorMessage(error.response.data.error);
+        }
+      } else {
+        setErrorMessage("Passwords must be the same.");
       }
     } else {
       setErrorMessage("Please fill all fields.");
@@ -89,6 +96,7 @@ const SignUpScreen = ({ navigation }) => {
             onChangeText={(text) => {
               setDescription(text);
             }}
+            multiline={true}
           ></TextInput>
           <TextInput
             style={styles.input}
@@ -106,14 +114,20 @@ const SignUpScreen = ({ navigation }) => {
             placeholder="Confirm Password"
             onChangeText={(text) => {
               setConfirmPassword(text);
-              if (confirmPassword !== password) {
-                setErrorMessage("Passwords must be the same");
-              }
             }}
           ></TextInput>
         </View>
-        <View style={{ gap: 20, marginTop: 15 }}>
-          {errorMessage && <Text style={{ color: "red" }}>{errorMessage}</Text>}
+        <View
+          style={{
+            gap: 20,
+            marginTop: 15,
+          }}
+        >
+          {errorMessage && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errorMessage}
+            </Text>
+          )}
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -169,6 +183,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderWidth: 1,
     borderColor: "#EB5A62",
+    padding: 10,
   },
 });
 

@@ -14,12 +14,13 @@ import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = ({ navigation, setUserToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async () => {
+    setErrorMessage("");
     if (email && password) {
       try {
         const response = await axios.post(
@@ -29,13 +30,16 @@ const SignInScreen = ({ navigation }) => {
             password: password,
           }
         );
-        console.log(response.data);
-        alert("Your account has been successfully created.");
+        // console.log(response.data);
+        const token = response.data.token;
+        setUserToken(token);
+        alert("You've been logged in");
       } catch (error) {
-        console.log(error.message);
+        console.log(error.response.data.error);
+        setErrorMessage(error.response.data.error);
       }
     } else {
-      setError("Please fill all fields.");
+      setErrorMessage("Please fill all fields.");
     }
   };
 
@@ -63,7 +67,7 @@ const SignInScreen = ({ navigation }) => {
             placeholder="E-mail"
             onChangeText={(text) => {
               setEmail(text);
-              setError("");
+              setErrorMessage("");
             }}
           ></TextInput>
           <TextInput
@@ -73,11 +77,16 @@ const SignInScreen = ({ navigation }) => {
             placeholder="Password"
             onChangeText={(text) => {
               setPassword(text);
-              setError("");
+              setErrorMessage("");
             }}
           ></TextInput>
         </View>
         <View style={{ gap: 20 }}>
+          {errorMessage && (
+            <Text style={{ color: "red", textAlign: "center" }}>
+              {errorMessage}
+            </Text>
+          )}
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -95,7 +104,6 @@ const SignInScreen = ({ navigation }) => {
           >
             <Text style={{ color: "#717171" }}>No account ? Register</Text>
           </Pressable>
-          {error && <Text style={{ color: "red" }}>{error}</Text>}
         </View>
       </View>
     </KeyboardAwareScrollView>
