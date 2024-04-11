@@ -7,18 +7,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
 
-import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+// import des Screens
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
 import RoomScreen from "./screens/RoomScreen";
-
-import { useEffect, useState } from "react";
+import AroundMeScreen from "./screens/AroundMeScreen";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -104,9 +105,51 @@ export default function App() {
                           <HomeScreen {...props} setUserToken={setUserToken} />
                         )}
                       </Stack.Screen>
-                      <Stack.Screen name="Room">
+                      <Stack.Screen
+                        name="Room"
+                        options={{
+                          headerTitle: () => (
+                            <FontAwesome6
+                              name="airbnb"
+                              style={{ color: "#EB5A62", fontSize: 30 }}
+                            />
+                          ),
+                        }}
+                      >
                         {(props) => (
                           <RoomScreen {...props} setUserToken={setUserToken} />
+                        )}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="TabAroundMe"
+                  options={{
+                    tabBarLabel: "Around Me",
+                    tabBarIcon: ({ color, size }) => (
+                      <EvilIcons name="location" size={27} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Aroundme"
+                        options={{
+                          headerTitle: () => (
+                            <FontAwesome6
+                              name="airbnb"
+                              style={{ color: "#EB5A62", fontSize: 30 }}
+                            />
+                          ),
+                        }}
+                      >
+                        {(props) => (
+                          <AroundMeScreen
+                            {...props}
+                            setUserToken={setUserToken}
+                          />
                         )}
                       </Stack.Screen>
                     </Stack.Navigator>

@@ -33,11 +33,15 @@ const HomeScreen = ({ setUserToken, navigation }) => {
   const yellowStars = (rating) => {
     const yellowStarsTab = [];
     for (let i = 0; i < rating; i++) {
-      yellowStarsTab.push(<Entypo name="star" size={22} color="#FFB100" />);
+      yellowStarsTab.push(
+        <Entypo name="star" key={i} size={22} color="#FFB100" />
+      );
     }
 
-    for (let j = 0; j < 5 - rating; j++) {
-      yellowStarsTab.push(<Entypo name="star" size={22} color="grey" />);
+    for (let j = rating; j < 5; j++) {
+      yellowStarsTab.push(
+        <Entypo key={j} name="star" size={22} color="grey" />
+      );
     }
 
     return yellowStarsTab;
@@ -47,8 +51,8 @@ const HomeScreen = ({ setUserToken, navigation }) => {
     <ActivityIndicator color="#EB5A62" />
   ) : (
     <>
-      <ScrollView
-        contentContainerStyle={{
+      <View
+        style={{
           padding: 20,
           backgroundColor: "white",
         }}
@@ -146,7 +150,7 @@ const HomeScreen = ({ setUserToken, navigation }) => {
             setUserToken(null);
           }}
         ></Button>
-      </ScrollView>
+      </View>
     </>
   );
 };
