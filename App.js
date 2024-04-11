@@ -16,6 +16,7 @@ const Stack = createNativeStackNavigator();
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
+import RoomScreen from "./screens/RoomScreen";
 
 import { useEffect, useState } from "react";
 
@@ -101,6 +102,11 @@ export default function App() {
                       >
                         {(props) => (
                           <HomeScreen {...props} setUserToken={setUserToken} />
+                        )}
+                      </Stack.Screen>
+                      <Stack.Screen name="Room">
+                        {(props) => (
+                          <RoomScreen {...props} setUserToken={setUserToken} />
                         )}
                       </Stack.Screen>
                     </Stack.Navigator>

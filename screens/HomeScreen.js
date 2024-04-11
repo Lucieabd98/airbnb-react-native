@@ -7,13 +7,14 @@ import {
   ActivityIndicator,
   Image,
   StyleSheet,
+  Pressable,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const HomeScreen = ({ setUserToken }) => {
+const HomeScreen = ({ setUserToken, navigation }) => {
   const [data, setData] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -43,7 +44,7 @@ const HomeScreen = ({ setUserToken }) => {
   };
 
   return isLoading ? (
-    <ActivityIndicator size="large" color="#EB5A62" />
+    <ActivityIndicator color="#EB5A62" />
   ) : (
     <>
       <ScrollView
@@ -53,19 +54,21 @@ const HomeScreen = ({ setUserToken }) => {
         }}
       >
         <FlatList
-          style={{ height: "100%", width: "100%" }}
           data={data}
           keyExtractor={(elem) => elem._id}
           renderItem={({ item }) => {
             const userUrl = item.user.account.photo.url;
             return (
-              <View
+              <Pressable
                 style={{
                   backgroundColor: "white",
                   height: 300,
                   borderBottomWidth: 1,
                   borderBottomColor: "lightgrey",
                   marginBottom: 30,
+                }}
+                onPress={() => {
+                  navigation.navigate("Room", { id: item._id });
                 }}
               >
                 <View
@@ -98,9 +101,17 @@ const HomeScreen = ({ setUserToken }) => {
                     {item.price}€
                   </Text>
                 </View>
-                <View style={{ flexDirection: "row" }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    display: "flex",
+                  }}
+                >
                   <View
-                    style={{ width: "75%", justifyContent: "space-around" }}
+                    style={{
+                      width: "75%",
+                      justifyContent: "space-around",
+                    }}
                   >
                     <Text
                       style={{ fontSize: 20 }}
@@ -124,7 +135,7 @@ const HomeScreen = ({ setUserToken }) => {
                     />
                   </View>
                 </View>
-              </View>
+              </Pressable>
             );
           }}
         ></FlatList>
@@ -144,6 +155,6 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 30,
+    // padding: 30,
   },
 });
