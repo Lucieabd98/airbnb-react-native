@@ -20,6 +20,7 @@ import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
 import RoomScreen from "./screens/RoomScreen";
 import AroundMeScreen from "./screens/AroundMeScreen";
+import MyProfileScreen from "./screens/MyProfileScreen";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -147,6 +148,38 @@ export default function App() {
                       >
                         {(props) => (
                           <AroundMeScreen
+                            {...props}
+                            setUserToken={setUserToken}
+                          />
+                        )}
+                      </Stack.Screen>
+                    </Stack.Navigator>
+                  )}
+                </Tab.Screen>
+                <Tab.Screen
+                  name="TabMyProfile"
+                  options={{
+                    tabBarLabel: "My Profile",
+                    tabBarIcon: ({ color, size }) => (
+                      <Ionicons name="person-outline" size={24} color={color} />
+                    ),
+                  }}
+                >
+                  {() => (
+                    <Stack.Navigator>
+                      <Stack.Screen
+                        name="Myprofile"
+                        options={{
+                          headerTitle: () => (
+                            <FontAwesome6
+                              name="airbnb"
+                              style={{ color: "#EB5A62", fontSize: 30 }}
+                            />
+                          ),
+                        }}
+                      >
+                        {(props) => (
+                          <MyProfileScreen
                             {...props}
                             setUserToken={setUserToken}
                           />

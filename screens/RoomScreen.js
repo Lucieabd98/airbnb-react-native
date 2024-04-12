@@ -156,7 +156,7 @@ const RoomScreen = ({ route }) => {
       </View>
       <View>
         <MapView
-          style={{ width: "100%", height: 200 }}
+          style={{ width: "100%", height: 250 }}
           provider={PROVIDER_GOOGLE}
           initialRegion={{
             latitude: 48.856614,

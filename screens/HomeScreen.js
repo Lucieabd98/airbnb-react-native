@@ -143,13 +143,6 @@ const HomeScreen = ({ setUserToken, navigation }) => {
             );
           }}
         ></FlatList>
-
-        <Button
-          title="déconnexion"
-          onPress={() => {
-            setUserToken(null);
-          }}
-        ></Button>
       </View>
     </>
   );
