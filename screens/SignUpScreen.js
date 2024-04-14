@@ -41,7 +41,7 @@ const SignUpScreen = ({ navigation, setUserToken }) => {
           const token = response.data.token;
 
           setUserToken(token);
-          alert("Your account has been successfully created.");
+          // alert("Your account has been successfully created.");
         } catch (error) {
           console.log(error.response.data.error);
           setErrorMessage(error.response.data.error);

@@ -30,10 +30,10 @@ const SignInScreen = ({ navigation, setUserToken }) => {
             password: password,
           }
         );
-        // console.log(response.data);
+        console.log(response.data.id);
         const token = response.data.token;
         setUserToken(token);
-        alert("You've been logged in");
+        // alert("You've been logged in");
       } catch (error) {
         console.log(error.response.data.error);
         setErrorMessage(error.response.data.error);

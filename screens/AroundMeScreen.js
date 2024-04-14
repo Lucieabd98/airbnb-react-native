@@ -58,7 +58,7 @@ const AroundMeScreen = () => {
         longitude
     );
     setData(response.data);
-    console.log(response);
+    // console.log(response);
     setIsLoading(false);
   };
 

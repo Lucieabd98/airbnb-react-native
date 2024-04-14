@@ -25,6 +25,7 @@ import MyProfileScreen from "./screens/MyProfileScreen";
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState();
 
   const setUserToken = async (token) => {
     // console.log(token, "coucou");
@@ -38,6 +39,19 @@ export default function App() {
   };
 
   // console.log(token);
+
+  const importData = async () => {
+    try {
+      const keys = await AsyncStorage.getAllKeys();
+      const result = await AsyncStorage.multiGet(keys);
+
+      return result.map((req) => req).forEach(console.log);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // importData();
 
   useEffect(() => {
     const bootstrapAsync = async () => {
